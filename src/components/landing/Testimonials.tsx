@@ -41,7 +41,7 @@ const testimonials = [
 ];
 
 export const Testimonials = () => (
-  <section id="testimonials" aria-labelledby="testimonials-heading" className="py-20 md:py-28">
+  <section id="testimonials" aria-labelledby="testimonials-heading" className="section-band section-y">
     <div className="container-tight">
       <Reveal>
         <SectionHeading
@@ -49,32 +49,42 @@ export const Testimonials = () => (
           title="Students who built careers with us"
           description="A few words from learners who walked in curious and walked out hired."
         />
-        <h2 id="testimonials-heading" className="sr-only">Testimonials</h2>
+        <h2 id="testimonials-heading" className="sr-only">
+          Testimonials
+        </h2>
       </Reveal>
 
-      <Reveal className="mt-12">
-        <Carousel opts={{ align: "start", loop: true }} className="w-full">
-          <CarouselContent>
+      <Reveal className="mt-16">
+        <Carousel opts={{ align: "start", loop: true, duration: 22 }} className="w-full">
+          <CarouselContent className="-ml-3 md:-ml-4">
             {testimonials.map((t) => (
-              <CarouselItem key={t.name} className="md:basis-1/2">
-                <figure className="flex h-full flex-col rounded-lg border border-border bg-card p-7 shadow-soft">
-                  <Quote className="h-6 w-6 text-primary/70" aria-hidden />
-                  <blockquote className="mt-4 flex-1 text-base leading-relaxed text-foreground">
+              <CarouselItem key={t.name} className="pl-3 md:basis-1/2 md:pl-4">
+                <figure className="flex h-full flex-col rounded-3xl border border-border/55 bg-gradient-to-b from-card via-card to-primary-soft/30 p-9 shadow-card backdrop-blur-sm transition-all duration-300 hover:border-primary/18 hover:shadow-elevated md:p-10">
+                  <Quote className="h-8 w-8 shrink-0 text-primary/75" aria-hidden />
+                  <blockquote className="mt-6 flex-1 text-lg font-medium leading-relaxed tracking-tight text-foreground md:text-xl md:leading-relaxed">
                     "{t.quote}"
                   </blockquote>
-                  <figcaption className="mt-6 border-t border-border pt-4">
-                    <div className="text-sm font-semibold text-foreground">{t.name}</div>
-                    <div className="text-xs text-muted-foreground">
-                      {t.course} · {t.company}
+                  <figcaption className="mt-10 flex items-center gap-4 border-t border-border/55 pt-8">
+                    <span
+                      aria-hidden
+                      className="grid h-12 w-12 shrink-0 place-items-center rounded-full border border-primary/15 bg-primary-soft text-base font-bold text-primary shadow-soft"
+                    >
+                      {t.name.trim().charAt(0)}
+                    </span>
+                    <div>
+                      <div className="text-sm font-semibold text-foreground">{t.name}</div>
+                      <div className="mt-1 text-xs font-medium leading-snug text-muted-foreground">
+                        {t.course} · {t.company}
+                      </div>
                     </div>
                   </figcaption>
                 </figure>
               </CarouselItem>
             ))}
           </CarouselContent>
-          <div className="mt-6 flex items-center justify-center gap-2">
-            <CarouselPrevious className="static translate-y-0" />
-            <CarouselNext className="static translate-y-0" />
+          <div className="mt-10 flex items-center justify-center gap-3">
+            <CarouselPrevious className="static translate-y-0 rounded-full border-border/55 shadow-soft" />
+            <CarouselNext className="static translate-y-0 rounded-full border-border/55 shadow-soft" />
           </div>
         </Carousel>
       </Reveal>

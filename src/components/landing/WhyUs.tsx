@@ -6,6 +6,7 @@ import {
   Hammer,
   Users,
 } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
 
@@ -43,7 +44,11 @@ const items = [
 ];
 
 export const WhyUs = () => (
-  <section id="why-us" aria-labelledby="why-heading" className="py-20 md:py-28">
+  <section
+    id="why-us"
+    aria-labelledby="why-heading"
+    className="bg-gradient-to-b from-background via-muted/35 to-background section-y"
+  >
     <div className="container-tight">
       <Reveal>
         <SectionHeading
@@ -51,18 +56,46 @@ export const WhyUs = () => (
           title="Built around outcomes, not just lectures"
           description="Every part of the program is designed to make you confident in interviews and effective on the job."
         />
-        <h2 id="why-heading" className="sr-only">Why choose SamIT Technology</h2>
+        <h2 id="why-heading" className="sr-only">
+          Why choose SamIT Technology
+        </h2>
       </Reveal>
 
-      <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-16 grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-6">
         {items.map((it, i) => (
-          <Reveal key={it.title} delay={i * 60}>
-            <div className="h-full rounded-lg border border-border bg-card p-6 shadow-soft transition-all hover:-translate-y-0.5 hover:shadow-elevated">
-              <div className="grid h-10 w-10 place-items-center rounded-md bg-primary-soft text-primary">
-                <it.icon className="h-5 w-5" />
+          <Reveal
+            key={it.title}
+            delay={i * 60}
+            className={cn(i === 0 && "md:col-span-2 md:row-span-2")}
+          >
+            <div
+              className={cn(
+                "flex h-full flex-col rounded-3xl border border-border/55 bg-card/95 p-8 shadow-card backdrop-blur-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:border-primary/22 hover:shadow-elevated md:p-9",
+                i === 0 &&
+                  "min-h-[270px] bg-gradient-to-br from-primary-soft via-card to-card md:min-h-[340px] md:p-11",
+              )}
+            >
+              <div>
+                <div
+                  className={cn(
+                    "grid h-12 w-12 place-items-center rounded-2xl border border-primary/12 bg-primary-soft text-primary shadow-soft",
+                    i === 0 && "h-16 w-16 rounded-[1.35rem]",
+                  )}
+                >
+                  <it.icon className={cn("h-5 w-5", i === 0 && "h-8 w-8")} />
+                </div>
+                <h3
+                  className={cn(
+                    "mt-6 text-base font-semibold tracking-tight text-foreground md:text-lg",
+                    i === 0 && "text-xl md:text-2xl",
+                  )}
+                >
+                  {it.title}
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:text-[15px] md:leading-relaxed">
+                  {it.desc}
+                </p>
               </div>
-              <h3 className="mt-4 text-base font-semibold text-foreground">{it.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{it.desc}</p>
             </div>
           </Reveal>
         ))}

@@ -8,7 +8,7 @@ const stats = [
 ];
 
 export const About = () => (
-  <section id="about" aria-labelledby="about-heading" className="py-20 md:py-28">
+  <section id="about" aria-labelledby="about-heading" className="section-muted section-y">
     <div className="container-tight">
       <Reveal>
         <SectionHeading
@@ -21,14 +21,12 @@ export const About = () => (
         </h2>
       </Reveal>
 
-      <div className="mx-auto mt-12 grid max-w-3xl grid-cols-1 gap-4 sm:grid-cols-3">
+      <div className="mx-auto mt-16 grid max-w-3xl grid-cols-1 gap-6 sm:grid-cols-3">
         {stats.map((s, i) => (
           <Reveal key={s.label} delay={i * 80}>
-            <div className="rounded-lg border border-border bg-card p-6 text-center shadow-soft transition-shadow hover:shadow-elevated">
-              <div className="text-3xl font-bold tracking-tight text-primary md:text-4xl">
-                {s.value}
-              </div>
-              <div className="mt-1 text-sm text-muted-foreground">{s.label}</div>
+            <div className="rounded-3xl border border-border/55 bg-card/95 p-8 text-center shadow-card backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/18 hover:shadow-elevated md:p-9">
+              <div className="text-3xl font-bold tracking-tight text-primary md:text-[2.15rem]">{s.value}</div>
+              <div className="mt-3 text-sm font-medium leading-snug text-muted-foreground">{s.label}</div>
             </div>
           </Reveal>
         ))}

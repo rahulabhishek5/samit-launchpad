@@ -30,7 +30,11 @@ export default {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
-        surface: "hsl(var(--surface))",
+        surface: {
+          DEFAULT: "hsl(var(--surface))",
+          muted: "hsl(var(--surface-muted))",
+          elevated: "hsl(var(--surface-elevated))",
+        },
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -75,6 +79,13 @@ export default {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        xl: "calc(var(--radius) + 4px)",
+        "2xl": "calc(var(--radius) + 8px)",
+        "3xl": "1.75rem",
+      },
+      boxShadow: {
+        float: "var(--shadow-float)",
+        card: "var(--shadow-card)",
       },
       keyframes: {
         "accordion-down": {

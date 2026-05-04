@@ -476,7 +476,7 @@ const marketTagTone: Record<MarketTag, string> = {
 };
 
 const linkFocusClass =
-  "rounded-xl outline-offset-2 transition-[transform,box-shadow] duration-300 ease-out focus-visible:outline focus-visible:ring-2 focus-visible:ring-ring";
+  "rounded-3xl outline-offset-2 transition-[transform,box-shadow] duration-300 ease-out focus-visible:outline focus-visible:ring-2 focus-visible:ring-ring";
 
 function FeaturedCourseCard({
   course,
@@ -498,20 +498,23 @@ function FeaturedCourseCard({
     >
       <Card
         className={cn(
-          "flex h-full flex-col border-border/80 bg-card/80 shadow-sm backdrop-blur-sm",
+          "flex h-full flex-col border-primary/10 bg-gradient-to-b from-card to-primary-soft/20 shadow-card ring-1 ring-inset ring-white/70 backdrop-blur-sm",
           "transition-[transform,box-shadow] duration-300 ease-out",
-          "group-hover:-translate-y-1 group-hover:shadow-elevated",
+          "group-hover:-translate-y-1.5 group-hover:border-primary/25 group-hover:shadow-elevated",
         )}
       >
         <CardHeader className="space-y-3 pb-2">
           <div className="flex flex-wrap items-center gap-2">
             {tag && (
-              <Badge variant="outline" className={cn("gap-1 font-medium", marketTagTone[tag])}>
+              <Badge
+                variant="outline"
+                className={cn("gap-1 rounded-lg border font-semibold shadow-soft", marketTagTone[tag])}
+              >
                 <Sparkles className="h-3 w-3" aria-hidden />
                 {tag}
               </Badge>
             )}
-            <Badge variant="secondary" className={cn("ml-auto shrink-0", levelTone[course.level])}>
+            <Badge variant="secondary" className={cn("ml-auto shrink-0 rounded-lg font-semibold", levelTone[course.level])}>
               {course.level}
             </Badge>
           </div>
@@ -524,7 +527,7 @@ function FeaturedCourseCard({
             <Clock className="h-4 w-4 shrink-0" aria-hidden />
             {course.duration}
           </span>
-          <span className="inline-flex h-9 w-full items-center justify-center gap-1 rounded-md border border-input bg-background px-3 text-sm font-medium text-foreground transition-colors group-hover:bg-accent group-hover:text-accent-foreground sm:w-auto">
+          <span className="inline-flex h-11 min-w-[8.5rem] w-full items-center justify-center gap-1 rounded-full border border-border/75 bg-background/95 px-5 text-sm font-semibold text-foreground shadow-soft transition-all duration-300 group-hover:border-primary/28 group-hover:bg-primary-soft/45 group-hover:text-accent-foreground sm:w-auto">
             Learn More
             <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden />
           </span>
@@ -544,17 +547,23 @@ function CourseCard({ course }: { course: Course }) {
       aria-label={`${course.name} — open course details on SamIT Technology`}
       className={cn(linkFocusClass, "group block h-full no-underline")}
     >
-      <Card className="flex h-full flex-col border-border transition-[transform,box-shadow] duration-300 ease-out group-hover:-translate-y-0.5 group-hover:shadow-elevated">
+      <Card className="flex h-full flex-col border-border/70 bg-card/95 ring-1 ring-inset ring-white/60 transition-[transform,box-shadow] duration-300 ease-out group-hover:-translate-y-1 group-hover:border-primary/15 group-hover:shadow-elevated">
         <CardHeader className="pb-3">
           <div className="flex flex-wrap items-start justify-between gap-2">
             <CardTitle className="text-lg font-semibold leading-snug text-foreground">{course.name}</CardTitle>
             <div className="flex shrink-0 flex-wrap items-center justify-end gap-1.5">
               {course.tag && (
-                <Badge variant="outline" className={cn("text-[10px] font-semibold uppercase tracking-wide", marketTagTone[course.tag])}>
+                <Badge
+                  variant="outline"
+                  className={cn(
+                    "rounded-md text-[10px] font-semibold uppercase tracking-wide shadow-sm",
+                    marketTagTone[course.tag],
+                  )}
+                >
                   {course.tag}
                 </Badge>
               )}
-              <Badge variant="secondary" className={cn(levelTone[course.level])}>
+              <Badge variant="secondary" className={cn("rounded-lg font-semibold", levelTone[course.level])}>
                 {course.level}
               </Badge>
             </div>
@@ -580,7 +589,7 @@ export const Courses = () => {
   const categories = CATEGORY_ORDER.filter((c) => CATALOG[c]?.length);
 
   return (
-    <section id="courses" aria-labelledby="courses-heading" className="bg-surface py-20 md:py-28">
+    <section id="courses" aria-labelledby="courses-heading" className="section-surface section-y">
       <div className="container-tight">
         <Reveal>
           <SectionHeading
@@ -593,8 +602,8 @@ export const Courses = () => {
           </h2>
         </Reveal>
 
-        <Reveal className="mt-12">
-          <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+        <Reveal className="mt-16">
+          <div className="mb-9 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <h3 className="text-sm font-medium uppercase tracking-wider text-muted-foreground">Featured programs</h3>
               <p className="mt-1 max-w-xl text-sm text-muted-foreground">
@@ -618,15 +627,15 @@ export const Courses = () => {
                 );
               })}
             </CarouselContent>
-            <div className="mt-6 flex items-center justify-end gap-2">
-              <CarouselPrevious className="static translate-y-0" />
-              <CarouselNext className="static translate-y-0" />
+            <div className="mt-10 flex items-center justify-end gap-3">
+              <CarouselPrevious className="static translate-y-0 rounded-full border-border/55 shadow-soft" />
+              <CarouselNext className="static translate-y-0 rounded-full border-border/55 shadow-soft" />
             </div>
           </Carousel>
         </Reveal>
 
-        <Reveal className="mt-16 md:mt-20">
-          <div className="mb-6">
+        <Reveal className="mt-24 md:mt-32">
+          <div className="mb-9">
             <h3 className="text-sm font-medium uppercase tracking-wider text-muted-foreground">Browse by category</h3>
             <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
               Balanced tracks for quick scanning—open any card for the full program on SamIT Technology.
@@ -635,12 +644,12 @@ export const Courses = () => {
 
           <Tabs defaultValue={categories[0]} className="w-full">
             <div className="-mx-1 overflow-x-auto pb-2 md:mx-0">
-              <TabsList className="inline-flex h-auto min-h-10 w-max gap-1 bg-muted/40 p-1">
+              <TabsList className="inline-flex h-auto min-h-12 w-max gap-1 rounded-2xl border border-border/50 bg-muted/55 p-1.5 shadow-inner">
                 {categories.map((cat) => (
                   <TabsTrigger
                     key={cat}
                     value={cat}
-                    className="whitespace-nowrap rounded-md px-3 py-2 text-left text-xs sm:text-sm"
+                    className="whitespace-nowrap rounded-xl px-3.5 py-2.5 text-left text-xs transition-all duration-200 data-[state=active]:shadow-soft sm:text-sm"
                   >
                     {cat}
                   </TabsTrigger>

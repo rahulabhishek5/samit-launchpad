@@ -17,21 +17,26 @@ export const SectionHeading = ({
 }: SectionHeadingProps) => (
   <div
     className={cn(
-      "max-w-2xl",
+      "max-w-3xl",
       align === "center" ? "mx-auto text-center" : "text-left",
       className,
     )}
   >
     {eyebrow && (
-      <span className="inline-block rounded-full bg-primary-soft px-3 py-1 text-xs font-medium tracking-wide text-primary">
+      <span className="inline-block rounded-full border border-primary/20 bg-primary-soft/90 px-4 py-1.5 text-xs font-semibold tracking-wide text-primary shadow-soft">
         {eyebrow}
       </span>
     )}
-    <h2 className="mt-4 text-3xl font-semibold tracking-tight text-foreground md:text-4xl">
+    <h2 className="mt-6 text-balance text-3xl font-semibold tracking-[-0.02em] text-foreground md:text-5xl md:leading-[1.12]">
       {title}
     </h2>
     {description && (
-      <p className="mt-4 text-base leading-relaxed text-muted-foreground md:text-lg">
+      <p
+        className={cn(
+          "mt-6 max-w-2xl text-balance text-base leading-[1.65] text-muted-foreground md:text-lg md:leading-relaxed",
+          align === "center" && "md:mx-auto",
+        )}
+      >
         {description}
       </p>
     )}
