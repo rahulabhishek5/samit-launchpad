@@ -3,7 +3,7 @@ import { SectionHeading } from "./SectionHeading";
 
 const stats = [
   { value: "2,000+", label: "Students Trained" },
-  { value: "25+", label: "Courses Offered" },
+  { value: "40+", label: "Courses Offered" },
   { value: "150+", label: "Placement Partners" },
 ];
 
