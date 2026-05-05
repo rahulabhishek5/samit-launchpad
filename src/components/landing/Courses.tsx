@@ -1,14 +1,7 @@
-import { ArrowUpRight, Clock, Sparkles } from "lucide-react";
+import { useMemo, useState } from "react";
+import { ArrowUpRight, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getCourseUrl } from "@/config/samitCourseUrls";
 import { cn } from "@/lib/utils";
 import { Reveal } from "./Reveal";
@@ -470,67 +463,82 @@ const levelTone: Record<Level, string> = {
 };
 
 const marketTagTone: Record<MarketTag, string> = {
-  Popular: "border-primary/25 bg-primary-soft text-primary",
-  Trending: "border-amber-500/30 bg-amber-50 text-amber-900 dark:bg-amber-950/40 dark:text-amber-100",
-  "Job-Oriented": "border-emerald-500/25 bg-emerald-50 text-emerald-900 dark:bg-emerald-950/35 dark:text-emerald-100",
+  Popular: "border-primary/30 bg-primary/12 text-primary",
+  Trending: "border-accent/35 bg-accent/12 text-accent",
+  "Job-Oriented": "border-[hsl(40_45%_58%/.35)] bg-[hsl(40_45%_58%/.12)] text-[hsl(40_45%_72%)]",
 };
 
 const linkFocusClass =
-  "rounded-3xl outline-offset-2 transition-[transform,box-shadow] duration-300 ease-out focus-visible:outline focus-visible:ring-2 focus-visible:ring-ring";
+  "rounded-2xl outline-offset-2 transition-[transform,box-shadow] duration-300 ease-out focus-visible:outline focus-visible:ring-2 focus-visible:ring-ring";
 
-function FeaturedCourseCard({
-  course,
-  valueStatement,
-  tag,
-}: {
-  course: Course;
-  valueStatement: string;
-  tag?: MarketTag;
-}) {
-  const href = getCourseUrl(course.id);
+function FeaturedPrimaryCard({ item }: { item: FeaturedHighlight }) {
+  const course = courseById.get(item.courseId);
+  if (!course) return null;
   return (
     <a
-      href={href}
+      href={getCourseUrl(course.id)}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label={`${course.name} — open course details on SamIT Technology`}
-      className={cn(linkFocusClass, "group block h-full no-underline")}
+      className={cn(linkFocusClass, "group block no-underline")}
+      aria-label={`${course.name} — open featured course`}
     >
-      <Card
-        className={cn(
-          "flex h-full flex-col border-primary/10 bg-gradient-to-b from-card to-primary-soft/20 shadow-card ring-1 ring-inset ring-white/70 backdrop-blur-sm",
-          "transition-[transform,box-shadow] duration-300 ease-out",
-          "group-hover:-translate-y-1.5 group-hover:border-primary/25 group-hover:shadow-elevated",
-        )}
-      >
-        <CardHeader className="space-y-3 pb-2">
+      <Card className="h-full border-border/70 bg-gradient-to-br from-card to-primary-soft/25 shadow-card transition-transform duration-300 group-hover:-translate-y-1">
+        <CardHeader className="space-y-3 pb-3">
           <div className="flex flex-wrap items-center gap-2">
-            {tag && (
-              <Badge
-                variant="outline"
-                className={cn("gap-1 rounded-lg border font-semibold shadow-soft", marketTagTone[tag])}
-              >
-                <Sparkles className="h-3 w-3" aria-hidden />
-                {tag}
+            {item.tag && (
+              <Badge variant="outline" className={cn("rounded-md border text-[11px] font-semibold", marketTagTone[item.tag])}>
+                {item.tag}
               </Badge>
             )}
-            <Badge variant="secondary" className={cn("ml-auto shrink-0 rounded-lg font-semibold", levelTone[course.level])}>
+            <Badge variant="secondary" className={cn("ml-auto rounded-md text-[11px] font-semibold", levelTone[course.level])}>
               {course.level}
             </Badge>
           </div>
-          <CardTitle className="text-xl font-semibold leading-snug tracking-tight text-foreground">{course.name}</CardTitle>
-          <p className="text-sm font-medium leading-relaxed text-primary">{valueStatement}</p>
-          <CardDescription className="text-sm leading-relaxed text-muted-foreground">{course.blurb}</CardDescription>
+          <CardTitle className="text-xl leading-tight">{course.name}</CardTitle>
+          <p className="text-sm text-primary">{item.valueStatement}</p>
+          <CardDescription className="line-clamp-2 text-sm">{course.blurb}</CardDescription>
         </CardHeader>
-        <CardContent className="mt-auto flex flex-col gap-4 pt-0 sm:flex-row sm:items-end sm:justify-between">
-          <span className="inline-flex items-center gap-1.5 text-sm text-muted-foreground">
-            <Clock className="h-4 w-4 shrink-0" aria-hidden />
+        <CardContent className="flex items-center justify-between pt-0">
+          <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
+            <Clock className="h-3.5 w-3.5" />
             {course.duration}
           </span>
-          <span className="inline-flex h-11 min-w-[8.5rem] w-full items-center justify-center gap-1 rounded-full border border-border/75 bg-background/95 px-5 text-sm font-semibold text-foreground shadow-soft transition-all duration-300 group-hover:border-primary/28 group-hover:bg-primary-soft/45 group-hover:text-accent-foreground sm:w-auto">
-            Learn More
-            <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden />
+          <span className="inline-flex items-center gap-1 text-sm font-medium text-primary">
+            Explore
+            <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
           </span>
+        </CardContent>
+      </Card>
+    </a>
+  );
+}
+
+function FeaturedCompactCard({ item }: { item: FeaturedHighlight }) {
+  const course = courseById.get(item.courseId);
+  if (!course) return null;
+  return (
+    <a
+      href={getCourseUrl(course.id)}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={cn(linkFocusClass, "group block no-underline")}
+      aria-label={`${course.name} — open featured course`}
+    >
+      <Card className="border-border/70 bg-card/90 transition-transform duration-300 group-hover:-translate-y-0.5">
+        <CardContent className="flex items-start justify-between gap-3 p-4">
+          <div className="min-w-0">
+            <div className="flex items-center gap-2">
+              {item.tag && (
+                <Badge variant="outline" className={cn("rounded-md border text-[10px] font-semibold", marketTagTone[item.tag])}>
+                  {item.tag}
+                </Badge>
+              )}
+              <span className="text-[11px] text-muted-foreground">{course.duration}</span>
+            </div>
+            <h4 className="mt-2 line-clamp-1 text-sm font-semibold text-foreground">{course.name}</h4>
+            <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">{item.valueStatement}</p>
+          </div>
+          <ArrowUpRight className="mt-0.5 h-4 w-4 shrink-0 text-primary transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
         </CardContent>
       </Card>
     </a>
@@ -547,35 +555,35 @@ function CourseCard({ course }: { course: Course }) {
       aria-label={`${course.name} — open course details on SamIT Technology`}
       className={cn(linkFocusClass, "group block h-full no-underline")}
     >
-      <Card className="flex h-full flex-col border-border/70 bg-card/95 ring-1 ring-inset ring-white/60 transition-[transform,box-shadow] duration-300 ease-out group-hover:-translate-y-1 group-hover:border-primary/15 group-hover:shadow-elevated">
-        <CardHeader className="pb-3">
+      <Card className="flex h-full flex-col border-border/70 bg-card/95 transition-[transform,box-shadow] duration-300 ease-out group-hover:-translate-y-0.5 group-hover:border-primary/20">
+        <CardHeader className="space-y-2 pb-2">
           <div className="flex flex-wrap items-start justify-between gap-2">
-            <CardTitle className="text-lg font-semibold leading-snug text-foreground">{course.name}</CardTitle>
+            <CardTitle className="line-clamp-1 text-base font-semibold leading-snug text-foreground">{course.name}</CardTitle>
             <div className="flex shrink-0 flex-wrap items-center justify-end gap-1.5">
               {course.tag && (
                 <Badge
                   variant="outline"
                   className={cn(
-                    "rounded-md text-[10px] font-semibold uppercase tracking-wide shadow-sm",
+                    "rounded-md text-[10px] font-semibold uppercase tracking-wide",
                     marketTagTone[course.tag],
                   )}
                 >
                   {course.tag}
                 </Badge>
               )}
-              <Badge variant="secondary" className={cn("rounded-lg font-semibold", levelTone[course.level])}>
+              <Badge variant="secondary" className={cn("rounded-md text-[10px] font-semibold", levelTone[course.level])}>
                 {course.level}
               </Badge>
             </div>
           </div>
-          <CardDescription className="leading-relaxed text-muted-foreground">{course.blurb}</CardDescription>
+          <CardDescription className="line-clamp-2 text-sm leading-relaxed text-muted-foreground">{course.blurb}</CardDescription>
         </CardHeader>
-        <CardContent className="mt-auto flex flex-wrap items-center justify-between gap-3 text-sm">
-          <span className="inline-flex items-center gap-1.5 text-muted-foreground">
-            <Clock className="h-4 w-4 shrink-0" aria-hidden />
+        <CardContent className="mt-auto flex items-center justify-between gap-3 pt-1 text-sm">
+          <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
+            <Clock className="h-3.5 w-3.5 shrink-0" aria-hidden />
             {course.duration}
           </span>
-          <span className="inline-flex shrink-0 items-center gap-1 font-medium text-primary">
+          <span className="inline-flex shrink-0 items-center gap-1 text-sm font-medium text-primary">
             Learn more
             <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden />
           </span>
@@ -587,6 +595,10 @@ function CourseCard({ course }: { course: Course }) {
 
 export const Courses = () => {
   const categories = CATEGORY_ORDER.filter((c) => CATALOG[c]?.length);
+  const [activeCategory, setActiveCategory] = useState<string>(categories[0]);
+  const featuredPrimary = FEATURED[0];
+  const featuredSecondary = FEATURED.slice(1, 5);
+  const activeCourses = useMemo(() => CATALOG[activeCategory] ?? [], [activeCategory]);
 
   return (
     <section id="courses" aria-labelledby="courses-heading" className="section-surface section-y">
@@ -602,71 +614,66 @@ export const Courses = () => {
           </h2>
         </Reveal>
 
-        <Reveal className="mt-16">
-          <div className="mb-9 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+        <Reveal className="mt-10">
+          <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <h3 className="text-sm font-medium uppercase tracking-wider text-muted-foreground">Featured programs</h3>
               <p className="mt-1 max-w-xl text-sm text-muted-foreground">
-                High-demand courses students and recruiters recognize—tap a card to view the full program on our main site.
+                High-demand tracks with the strongest placement momentum.
               </p>
             </div>
           </div>
 
-          <Carousel opts={{ align: "start", loop: true, duration: 22 }} className="w-full">
-            <CarouselContent className="-ml-3 md:-ml-4">
-              {FEATURED.map(({ courseId, valueStatement, tag }) => {
-                const course = courseById.get(courseId);
-                if (!course) return null;
-                return (
-                  <CarouselItem
-                    key={courseId}
-                    className="basis-full pl-3 sm:basis-4/5 md:basis-1/2 md:pl-4 lg:basis-1/3"
-                  >
-                    <FeaturedCourseCard course={course} valueStatement={valueStatement} tag={tag} />
-                  </CarouselItem>
-                );
-              })}
-            </CarouselContent>
-            <div className="mt-10 flex items-center justify-end gap-3">
-              <CarouselPrevious className="static translate-y-0 rounded-full border-border/55 shadow-soft" />
-              <CarouselNext className="static translate-y-0 rounded-full border-border/55 shadow-soft" />
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1.25fr_.75fr]">
+            <div className="min-h-[230px]">
+              <FeaturedPrimaryCard item={featuredPrimary} />
             </div>
-          </Carousel>
+            <div className="grid gap-3">
+              {featuredSecondary.map((item) => (
+                <FeaturedCompactCard key={item.courseId} item={item} />
+              ))}
+            </div>
+          </div>
         </Reveal>
 
-        <Reveal className="mt-24 md:mt-32">
-          <div className="mb-9">
+        <Reveal className="mt-12">
+          <div className="mb-5">
             <h3 className="text-sm font-medium uppercase tracking-wider text-muted-foreground">Browse by category</h3>
             <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
-              Balanced tracks for quick scanning—open any card for the full program on SamIT Technology.
+              Use filters to quickly scan compact course cards.
             </p>
           </div>
 
-          <Tabs defaultValue={categories[0]} className="w-full">
-            <div className="-mx-1 overflow-x-auto pb-2 md:mx-0">
-              <TabsList className="inline-flex h-auto min-h-12 w-max gap-1 rounded-2xl border border-border/50 bg-muted/55 p-1.5 shadow-inner">
-                {categories.map((cat) => (
-                  <TabsTrigger
-                    key={cat}
-                    value={cat}
-                    className="whitespace-nowrap rounded-xl px-3.5 py-2.5 text-left text-xs transition-all duration-200 data-[state=active]:shadow-soft sm:text-sm"
-                  >
-                    {cat}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
+          <div className="w-full">
+            <div className="-mx-1 overflow-x-auto pb-2 md:mx-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <div className="inline-flex w-max items-center gap-2 rounded-2xl border border-border/55 bg-muted/35 p-1.5">
+                {categories.map((cat) => {
+                  const active = activeCategory === cat;
+                  return (
+                    <button
+                      key={cat}
+                      type="button"
+                      onClick={() => setActiveCategory(cat)}
+                      className={cn(
+                        "whitespace-nowrap rounded-xl px-3.5 py-2 text-xs font-medium transition-all sm:text-sm",
+                        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                        active
+                          ? "bg-card text-foreground shadow-soft"
+                          : "text-muted-foreground hover:bg-card/70 hover:text-foreground",
+                      )}
+                    >
+                      {cat}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-
-            {categories.map((cat) => (
-              <TabsContent key={cat} value={cat} className="mt-6 focus-visible:outline-none md:mt-8">
-                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6">
-                  {CATALOG[cat].map((c) => (
-                    <CourseCard key={c.id} course={c} />
-                  ))}
-                </div>
-              </TabsContent>
-            ))}
-          </Tabs>
+            <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {activeCourses.map((course) => (
+                <CourseCard key={course.id} course={course} />
+              ))}
+            </div>
+          </div>
         </Reveal>
       </div>
     </section>

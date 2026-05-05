@@ -6,6 +6,7 @@ import {
   Hammer,
   Users,
 } from "lucide-react";
+import TestimonialSection from "@/components/ui/testimonial";
 import { cn } from "@/lib/utils";
 import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
@@ -47,7 +48,7 @@ export const WhyUs = () => (
   <section
     id="why-us"
     aria-labelledby="why-heading"
-    className="bg-gradient-to-b from-background via-muted/35 to-background section-y"
+    className="section-y bg-gradient-to-b from-background via-muted/25 to-background py-20 md:py-24"
   >
     <div className="container-tight">
       <Reveal>
@@ -61,7 +62,7 @@ export const WhyUs = () => (
         </h2>
       </Reveal>
 
-      <div className="mt-16 grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-6">
+      <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-3 md:gap-5">
         {items.map((it, i) => (
           <Reveal
             key={it.title}
@@ -70,9 +71,9 @@ export const WhyUs = () => (
           >
             <div
               className={cn(
-                "flex h-full flex-col rounded-3xl border border-border/55 bg-card/95 p-8 shadow-card backdrop-blur-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:border-primary/22 hover:shadow-elevated md:p-9",
+                "flex h-full flex-col rounded-3xl border border-border/55 bg-card/95 p-7 shadow-card transition-all duration-300 ease-out hover:-translate-y-1 hover:border-primary/22 hover:shadow-elevated md:p-8",
                 i === 0 &&
-                  "min-h-[270px] bg-gradient-to-br from-primary-soft via-card to-card md:min-h-[340px] md:p-11",
+                  "min-h-[250px] bg-gradient-to-br from-primary-soft via-card to-card md:min-h-[300px] md:p-9",
               )}
             >
               <div>
@@ -100,6 +101,12 @@ export const WhyUs = () => (
           </Reveal>
         ))}
       </div>
+
+      <Reveal className="mt-12">
+        <div className="rounded-3xl border border-border/60 bg-surface/40 px-4 py-6 md:px-6 md:py-8">
+          <TestimonialSection />
+        </div>
+      </Reveal>
     </div>
   </section>
 );

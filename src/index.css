@@ -3,65 +3,66 @@
 @tailwind utilities;
 
 /*
-  SamIT Technology — brand system (light, cool neutrals, accent #1978E5).
+  SamIT Technology — premium dark neutral theme.
+  Elegant, calm, and optimized for readability/performance.
 */
 
 @layer base {
   :root {
-    --background: 220 20% 99%;
-    --foreground: 222 32% 10%;
+    --background: 215 12% 8%;
+    --foreground: 214 24% 96%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222 32% 10%;
+    --card: 214 16% 14%;
+    --card-foreground: 214 22% 93%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 32% 10%;
+    --popover: 214 16% 14%;
+    --popover-foreground: 214 22% 93%;
 
-    /* #1978E5 */
-    --primary: 212 78% 50%;
+    /* Primary accent: modern violet */
+    --primary: 251 95% 74%;
     --primary-foreground: 0 0% 100%;
-    --primary-soft: 212 88% 96%;
+    --primary-soft: 249 36% 18%;
 
-    --secondary: 220 16% 96%;
-    --secondary-foreground: 222 32% 10%;
+    --secondary: 214 13% 20%;
+    --secondary-foreground: 214 14% 82%;
 
-    --muted: 220 16% 96%;
-    --muted-foreground: 220 10% 40%;
+    --muted: 214 11% 18%;
+    --muted-foreground: 214 11% 71%;
 
-    --accent: 212 90% 96%;
-    --accent-foreground: 212 78% 32%;
+    /* Secondary accent: muted teal */
+    --accent: 170 50% 48%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 14% 90%;
-    --input: 220 14% 91%;
-    --ring: 212 78% 50%;
+    --border: 214 14% 24%;
+    --input: 214 14% 23%;
+    --ring: 251 95% 74%;
 
-    --surface: 220 18% 98%;
-    --surface-muted: 220 14% 97%;
-    --surface-elevated: 0 0% 100%;
+    --surface: 214 14% 12%;
+    --surface-muted: 214 12% 10%;
+    --surface-elevated: 214 15% 16%;
 
     --radius: 1.25rem;
 
-    --shadow-soft: 0 1px 2px hsl(222 28% 8% / 0.04), 0 8px 28px hsl(222 28% 8% / 0.06);
-    --shadow-elevated: 0 12px 32px hsl(212 78% 42% / 0.12), 0 24px 56px hsl(222 28% 8% / 0.08);
-    --shadow-float: 0 6px 24px hsl(222 28% 8% / 0.06), 0 2px 6px hsl(222 28% 8% / 0.04);
-    --shadow-card: inset 0 1px 0 hsl(0 0% 100% / 0.85), 0 1px 2px hsl(222 28% 8% / 0.04),
-      0 16px 48px hsl(222 28% 8% / 0.07);
+    --shadow-soft: 0 2px 10px hsl(220 35% 3% / 0.2);
+    --shadow-elevated: 0 10px 24px hsl(220 36% 2% / 0.32);
+    --shadow-float: 0 6px 16px hsl(220 35% 2% / 0.28);
+    --shadow-card: inset 0 1px 0 hsl(0 0% 100% / 0.02), 0 6px 18px hsl(220 36% 2% / 0.25);
 
-    --gradient-hero: radial-gradient(72% 58% at 12% 4%, hsl(212 90% 97%) 0%, transparent 58%),
-      radial-gradient(52% 48% at 94% 10%, hsl(212 82% 95%) 0%, transparent 62%),
-      radial-gradient(42% 38% at 48% 96%, hsl(220 24% 97%) 0%, transparent 52%);
+    --gradient-hero: radial-gradient(62% 48% at 12% 4%, hsl(251 95% 74% / 0.18) 0%, transparent 58%),
+      radial-gradient(52% 45% at 94% 10%, hsl(170 50% 48% / 0.12) 0%, transparent 60%),
+      radial-gradient(42% 38% at 48% 96%, hsl(40 45% 58% / 0.08) 0%, transparent 52%);
 
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 215 13% 10%;
+    --sidebar-foreground: 214 24% 96%;
+    --sidebar-primary: 251 95% 74%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 214 12% 18%;
+    --sidebar-accent-foreground: 214 18% 90%;
+    --sidebar-border: 214 14% 24%;
+    --sidebar-ring: 251 95% 74%;
   }
 }
 
@@ -76,8 +77,12 @@
 
   body {
     @apply bg-background text-foreground antialiased;
+    font-family: Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     font-feature-settings: "cv11", "ss01";
     line-height: 1.62;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    overscroll-behavior-y: none;
   }
 
   ::selection {
@@ -93,13 +98,14 @@
 
   /** Consistent vertical rhythm for landing sections */
   .section-y {
-    @apply py-28 md:py-36;
+    @apply py-16 md:py-20;
   }
 
   .reveal {
     opacity: 0;
-    transform: translateY(12px);
-    transition: opacity 720ms cubic-bezier(0.22, 1, 0.36, 1), transform 720ms cubic-bezier(0.22, 1, 0.36, 1);
+    transform: translate3d(0, 10px, 0);
+    will-change: transform, opacity;
+    transition: opacity 480ms cubic-bezier(0.22, 1, 0.36, 1), transform 480ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .reveal-in {
@@ -139,10 +145,23 @@
   }
 
   .section-muted {
-    background: linear-gradient(180deg, hsl(220 18% 98.5%) 0%, hsl(var(--background)) 58%);
+    background: linear-gradient(180deg, hsl(214 12% 11%) 0%, hsl(var(--background)) 58%);
   }
 
   .section-band {
     background: linear-gradient(180deg, hsl(var(--surface-muted)) 0%, hsl(var(--surface)) 42%, hsl(var(--background)) 100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal {
+    transition: none;
+    transform: none;
+    opacity: 1;
+    will-change: auto;
   }
 }

@@ -10,10 +10,6 @@ import { Footer } from "@/components/landing/Footer";
 
 const Index = () => (
   <div className="relative min-h-screen overflow-x-hidden bg-background font-sans">
-    <div
-      className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(ellipse_90%_60%_at_50%_-15%,hsl(var(--primary-soft)/0.85),transparent_55%)]"
-      aria-hidden
-    />
     <Navbar />
     <main id="main">
       <Hero />

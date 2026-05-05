@@ -45,7 +45,7 @@ export const Footer = () => (
               key={label}
               href={href}
               aria-label={label}
-              className="grid h-11 w-11 place-items-center rounded-full border border-border/60 bg-card/70 text-muted-foreground shadow-soft transition-all duration-200 hover:border-primary/25 hover:bg-primary-soft/60 hover:text-foreground hover:shadow-float"
+              className="grid h-11 w-11 place-items-center rounded-full border border-border/60 bg-card/70 text-muted-foreground shadow-soft transition-all duration-200 hover:border-primary/30 hover:bg-primary/12 hover:text-primary hover:shadow-float"
             >
               <Icon className="h-[18px] w-[18px]" />
             </a>
