@@ -12,11 +12,13 @@ export const Footer = () => (
   <footer className="border-t border-border/50 bg-background/98 backdrop-blur-md">
     <div className="container-tight py-10 sm:py-14 md:py-16">
       <div className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
-        <div className="flex items-center gap-3 sm:gap-3.5">
-          <span className="grid h-10 w-10 place-items-center rounded-xl bg-primary text-sm font-bold text-primary-foreground shadow-soft sm:h-11 sm:w-11 sm:rounded-2xl">
-            S
-          </span>
-          <div>
+        <div className="flex items-center gap-3">
+          <img 
+            src="/samit_logo.png" 
+            alt="SamIT Technology" 
+            className="h-10 w-auto object-contain"
+          />
+          <div className="hidden sm:block">
             <div className="text-sm font-semibold tracking-tight text-foreground">SamIT Technology</div>
             <div className="mt-0.5 text-[11px] font-medium text-muted-foreground sm:text-xs">IT Training & Placement Institute</div>
           </div>

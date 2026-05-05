@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Grid2x2PlusIcon, MenuIcon } from "lucide-react";
-import { Sheet, SheetContent, SheetFooter, SheetTitle } from "@/components/ui/sheet";
+import { MenuIcon } from "lucide-react";
+import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -70,13 +70,14 @@ export function FloatingHeader({
       >
         <a
           href="#top"
-          className="hover:bg-accent inline-flex items-center gap-2 rounded-lg px-2 py-1.5 transition-colors"
+          className="hover:bg-accent flex items-center gap-2 rounded-lg px-2 py-1.5 transition-colors"
           aria-label={`${brandName} home`}
         >
-          <span className="grid size-7 place-items-center rounded-md bg-primary/14 text-primary">
-            <Grid2x2PlusIcon className="size-4" />
-          </span>
-          <p className="text-sm font-semibold tracking-tight md:text-base">{brandName}</p>
+          <img 
+            src="/samit_logo.png" 
+            alt={brandName} 
+            className="h-8 w-auto object-contain"
+          />
         </a>
 
         <div className="hidden items-center gap-1 lg:flex">
@@ -114,7 +115,13 @@ export function FloatingHeader({
               className="gap-0 bg-background/95 pt-8 supports-[backdrop-filter]:bg-background/90 backdrop-blur-lg"
               side="left"
             >
-              <SheetTitle className="px-4 text-left text-base font-semibold">{brandName}</SheetTitle>
+              <SheetTitle className="px-4 text-left">
+                <img 
+                  src="/samit_logo.png" 
+                  alt={brandName} 
+                  className="h-8 w-auto object-contain"
+                />
+              </SheetTitle>
               <div className="grid gap-y-1 overflow-y-auto px-4 py-5">
                 {links.map((link) => (
                   <a
@@ -130,18 +137,7 @@ export function FloatingHeader({
                   </a>
                 ))}
               </div>
-              <SheetFooter className="border-t border-border/60 bg-muted/20 p-4">
-                <Button asChild variant="outline">
-                  <a href="#contact" onClick={() => setOpen(false)}>
-                    Sign In
-                  </a>
-                </Button>
-                <Button asChild>
-                  <a href={ctaHref} onClick={() => setOpen(false)}>
-                    Get Started
-                  </a>
-                </Button>
-              </SheetFooter>
+
             </SheetContent>
           </Sheet>
         </div>
