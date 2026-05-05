@@ -23,17 +23,17 @@ export const SectionHeading = ({
     )}
   >
     {eyebrow && (
-      <span className="inline-block rounded-full border border-primary/20 bg-primary-soft/90 px-4 py-1.5 text-xs font-semibold tracking-wide text-primary shadow-soft">
+      <span className="inline-block rounded-full border border-primary/20 bg-primary-soft/90 px-3 py-1 text-[11px] font-semibold tracking-wide text-primary shadow-soft sm:px-4 sm:py-1.5 sm:text-xs">
         {eyebrow}
       </span>
     )}
-    <h2 className="mt-6 text-balance text-3xl font-semibold tracking-[-0.02em] text-foreground md:text-5xl md:leading-[1.12]">
+    <h2 className="mt-4 text-balance text-3xl font-semibold tracking-[-0.02em] text-foreground sm:text-4xl md:mt-6 md:text-5xl md:leading-[1.12]">
       {title}
     </h2>
     {description && (
       <p
         className={cn(
-          "mt-6 max-w-2xl text-balance text-base leading-[1.65] text-muted-foreground md:text-lg md:leading-relaxed",
+          "mt-4 max-w-2xl text-balance text-sm leading-[1.65] text-muted-foreground sm:text-base md:mt-6 md:text-lg md:leading-relaxed",
           align === "center" && "md:mx-auto",
         )}
       >

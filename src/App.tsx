@@ -7,7 +7,16 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000,       // 5 min — avoid redundant refetches
+      gcTime: 10 * 60 * 1000,         // 10 min — keep cache alive across nav
+      refetchOnWindowFocus: false,    // no surprise refetches on tab switch
+      retry: 1,                       // fail fast in prod; one retry is enough
+    },
+  },
+});
 
 const App = () => (
   <QueryClientProvider client={queryClient}>

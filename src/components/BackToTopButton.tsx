@@ -28,11 +28,11 @@ export function BackToTopButton() {
   if (!visible) return null;
 
   return (
-    <div className="fixed bottom-5 right-5 z-[60]">
+    <div className="fixed bottom-safe-5 right-4 z-[60] sm:bottom-5 sm:right-5" style={{ bottom: 'calc(env(safe-area-inset-bottom, 0px) + 1.25rem)' }}>
       <Button
         size="icon"
         variant="outline"
-        className="h-11 w-11 rounded-full border-border/70 bg-card/90 text-primary shadow-soft"
+        className="h-11 w-11 rounded-full border-border/70 bg-card/90 text-primary shadow-elevated backdrop-blur-md transition-all hover:bg-card hover:text-primary hover:shadow-float active:scale-95"
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         aria-label="Back to top"
       >

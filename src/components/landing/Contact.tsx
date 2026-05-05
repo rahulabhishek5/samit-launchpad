@@ -48,7 +48,7 @@ const items: Item[] = [
 ];
 
 export const Contact = () => (
-  <section id="contact" aria-labelledby="contact-heading" className="section-surface section-y">
+  <section id="contact" aria-labelledby="contact-heading" className="section-surface section-y content-lazy">
     <div className="container-tight">
       <Reveal>
         <SectionHeading
@@ -61,16 +61,16 @@ export const Contact = () => (
         </h2>
       </Reveal>
 
-      <div className="mt-16 grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-12 grid grid-cols-1 gap-4 sm:mt-16 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
         {items.map((item, i) => (
           <Reveal key={item.label} delay={i * 60}>
             <Card className="group h-full border-border/55 bg-card/98 shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-primary/18 hover:shadow-elevated">
-              <CardContent className="flex h-full flex-col p-8 md:p-9">
-                <div className="grid h-14 w-14 place-items-center rounded-2xl border border-primary/12 bg-primary-soft text-primary shadow-soft transition-all duration-300 group-hover:border-primary/22 group-hover:bg-primary/8">
-                  <item.icon className="h-6 w-6" />
+              <CardContent className="flex h-full flex-col p-6 sm:p-7 md:p-9">
+                <div className="grid h-12 w-12 place-items-center rounded-2xl border border-primary/12 bg-primary-soft text-primary shadow-soft transition-all duration-300 group-hover:border-primary/22 group-hover:bg-primary/8 sm:h-14 sm:w-14">
+                  <item.icon className="h-5 w-5 sm:h-6 sm:w-6" />
                 </div>
-                <div className="mt-6 text-xs font-medium uppercase tracking-wider text-muted-foreground">{item.label}</div>
-                <div className="mt-2 text-base font-semibold leading-snug text-foreground md:text-[17px]">{item.value}</div>
+                <div className="mt-5 text-[11px] font-medium uppercase tracking-wider text-muted-foreground sm:mt-6 sm:text-xs">{item.label}</div>
+                <div className="mt-1.5 text-sm font-semibold leading-snug text-foreground sm:mt-2 sm:text-base md:text-[17px]">{item.value}</div>
                 {item.href && item.cta && (
                   <a
                     href={item.href}

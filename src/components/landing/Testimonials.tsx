@@ -41,7 +41,7 @@ const testimonials = [
 ];
 
 export const Testimonials = () => (
-  <section id="testimonials" aria-labelledby="testimonials-heading" className="section-band section-y">
+  <section id="testimonials" aria-labelledby="testimonials-heading" className="section-band section-y content-lazy">
     <div className="container-tight">
       <Reveal>
         <SectionHeading
@@ -59,21 +59,21 @@ export const Testimonials = () => (
           <CarouselContent className="-ml-3 md:-ml-4">
             {testimonials.map((t) => (
               <CarouselItem key={t.name} className="pl-3 md:basis-1/2 md:pl-4">
-                <figure className="flex h-full flex-col rounded-3xl border border-border/55 bg-gradient-to-b from-card via-card to-primary-soft/30 p-9 shadow-card backdrop-blur-sm transition-all duration-300 hover:border-primary/18 hover:shadow-elevated md:p-10">
-                  <Quote className="h-8 w-8 shrink-0 text-primary/75" aria-hidden />
-                  <blockquote className="mt-6 flex-1 text-lg font-medium leading-relaxed tracking-tight text-foreground md:text-xl md:leading-relaxed">
+                <figure className="flex h-full flex-col rounded-3xl border border-border/55 bg-gradient-to-b from-card via-card to-primary-soft/30 p-7 shadow-card backdrop-blur-sm transition-all duration-300 hover:border-primary/18 hover:shadow-elevated sm:p-8 md:p-10">
+                  <Quote className="h-6 w-6 shrink-0 text-primary/75 sm:h-8 sm:w-8" aria-hidden />
+                  <blockquote className="mt-5 flex-1 text-base font-medium leading-relaxed tracking-tight text-foreground sm:text-lg md:text-xl md:leading-relaxed">
                     "{t.quote}"
                   </blockquote>
-                  <figcaption className="mt-10 flex items-center gap-4 border-t border-border/55 pt-8">
+                  <figcaption className="mt-8 flex items-center gap-3 border-t border-border/55 pt-6 sm:mt-10 sm:gap-4 sm:pt-8">
                     <span
                       aria-hidden
-                      className="grid h-12 w-12 shrink-0 place-items-center rounded-full border border-primary/15 bg-primary-soft text-base font-bold text-primary shadow-soft"
+                      className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-primary/15 bg-primary-soft text-sm font-bold text-primary shadow-soft sm:h-12 sm:w-12 sm:text-base"
                     >
                       {t.name.trim().charAt(0)}
                     </span>
                     <div>
-                      <div className="text-sm font-semibold text-foreground">{t.name}</div>
-                      <div className="mt-1 text-xs font-medium leading-snug text-muted-foreground">
+                      <div className="text-sm font-semibold text-foreground sm:text-base">{t.name}</div>
+                      <div className="mt-0.5 text-[11px] font-medium leading-snug text-muted-foreground sm:mt-1 sm:text-xs">
                         {t.course} · {t.company}
                       </div>
                     </div>

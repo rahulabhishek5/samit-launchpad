@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { ArrowUpRight, Clock } from "lucide-react";
+import { ArrowUpRight, Clock, ChevronDown, ChevronUp } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { getCourseUrl } from "@/config/samitCourseUrls";
@@ -26,8 +26,124 @@ type FeaturedHighlight = {
   tag?: MarketTag;
 };
 
-/** SamIT Technology — balanced catalog (3–4 courses per category) */
+/** SamIT Technology — balanced catalog */
 const CATALOG: Record<string, Course[]> = {
+  "Supply Chain / Planning": [
+    {
+      id: "palantir-foundry",
+      name: "Palantir Foundry",
+      blurb: "Master data integration and ontology building for enterprise operations.",
+      duration: "10 weeks",
+      level: "Intermediate",
+      tag: "Trending",
+    },
+    {
+      id: "kinaxis-rapidresponse",
+      name: "Kinaxis RapidResponse",
+      blurb: "Concurrent planning, scenario modeling, and supply chain agility.",
+      duration: "8 weeks",
+      level: "Intermediate",
+    },
+  ],
+
+  "Salesforce / Commerce / Revenue": [
+    {
+      id: "sf-commerce-cloud",
+      name: "Salesforce Commerce Cloud",
+      blurb: "B2B and B2C commerce implementation, unified customer experiences.",
+      duration: "12 weeks",
+      level: "Advanced",
+      tag: "Popular",
+    },
+    {
+      id: "sf-revenue-cloud-rca",
+      name: "Salesforce Revenue Cloud (RCA)",
+      blurb: "Advanced CPQ, billing, and revenue lifecycle management.",
+      duration: "10 weeks",
+      level: "Advanced",
+    },
+  ],
+
+  "Oracle Cloud": [
+    {
+      id: "oracle-oic",
+      name: "Oracle Integration Cloud (OIC)",
+      blurb: "Connect applications, automate processes, and build visual apps.",
+      duration: "10 weeks",
+      level: "Intermediate",
+      tag: "Job-Oriented",
+    },
+    {
+      id: "oracle-oac",
+      name: "Oracle Analytics Cloud (OAC)",
+      blurb: "AI-powered data prep, visualization, and enterprise reporting.",
+      duration: "8 weeks",
+      level: "Beginner",
+    },
+  ],
+
+  "Microsoft Dynamics / CRM / AI": [
+    {
+      id: "ms-dynamics-ce-ai",
+      name: "MS Dynamics D365 CE-CRM",
+      blurb: "Customer Engagement with Azure, Copilot, and Agentic AI workflows.",
+      duration: "12 weeks",
+      level: "Intermediate",
+      tag: "Trending",
+    },
+  ],
+
+  "Guidewire": [
+    {
+      id: "guidewire-dev",
+      name: "Guidewire Development",
+      blurb: "Core platform development: PolicyCenter, ClaimCenter, and BillingCenter.",
+      duration: "14 weeks",
+      level: "Advanced",
+      tag: "Job-Oriented",
+    },
+    {
+      id: "guidewire-testing",
+      name: "Guidewire Testing",
+      blurb: "Specialized QA for Guidewire insurance suite and integrations.",
+      duration: "8 weeks",
+      level: "Intermediate",
+    },
+    {
+      id: "guidewire-ba",
+      name: "Guidewire Business Analyst",
+      blurb: "Requirements, user stories, and insurance workflows for Guidewire.",
+      duration: "8 weeks",
+      level: "Beginner",
+    },
+  ],
+
+  "AI / Data Engineering": [
+    {
+      id: "gen-ai-agentic",
+      name: "Generative AI & Agentic AI",
+      blurb: "Build autonomous AI agents, advanced LLM workflows, and enterprise AI solutions.",
+      duration: "10 weeks",
+      level: "Advanced",
+      tag: "Trending",
+    },
+    {
+      id: "azure-data-engineer-ai",
+      name: "Azure Data Engineer with AI",
+      blurb: "Databricks, Data Factory, Azure Cloud, and AI integration.",
+      duration: "14 weeks",
+      level: "Intermediate",
+      tag: "Popular",
+    },
+    {
+      id: "snowflake-dbt",
+      name: "Snowflake with dbt",
+      blurb: "Cloud data warehousing, transformation pipelines, and modern data stack.",
+      duration: "10 weeks",
+      level: "Intermediate",
+    },
+  ],
+
   Programming: [
     {
       id: "java-oops",
@@ -280,11 +396,11 @@ const CATALOG: Record<string, Course[]> = {
       level: "Intermediate",
     },
     {
-      id: "soc-analyst-prep",
-      name: "SOC Analyst Preparation",
-      blurb: "Alerts, triage patterns, and analyst tooling overview.",
-      duration: "10 weeks",
-      level: "Intermediate",
+      id: "cyber-soc-vapt",
+      name: "Cyber Security - SOC & VAPT",
+      blurb: "Vulnerability Assessment, Penetration Testing, and Security Operations.",
+      duration: "12 weeks",
+      level: "Advanced",
       tag: "Job-Oriented",
     },
   ],
@@ -389,6 +505,12 @@ const CATALOG: Record<string, Course[]> = {
 };
 
 const CATEGORY_ORDER = [
+  "Supply Chain / Planning",
+  "Salesforce / Commerce / Revenue",
+  "Oracle Cloud",
+  "Microsoft Dynamics / CRM / AI",
+  "Guidewire",
+  "AI / Data Engineering",
   "Programming",
   "Web Development",
   "Data Analytics",
@@ -404,43 +526,24 @@ const CATEGORY_ORDER = [
 
 const FEATURED: FeaturedHighlight[] = [
   {
+    courseId: "gen-ai-agentic",
+    valueStatement: "Build autonomous AI agents and enterprise generative AI solutions.",
+    tag: "Trending",
+  },
+  {
+    courseId: "sf-commerce-cloud",
+    valueStatement: "Master B2B/B2C commerce implementation and unified customer experiences.",
+    tag: "Popular",
+  },
+  {
     courseId: "full-stack-java",
     valueStatement: "Full-stack Java skills employers screen for—backend depth plus React delivery.",
-    tag: "Popular",
-  },
-  {
-    courseId: "mern-stack",
-    valueStatement: "One JavaScript stack from database to UI—built as a cohesive product.",
-    tag: "Trending",
-  },
-  {
-    courseId: "analytics-excel-pbi",
-    valueStatement: "Turn messy exports into decisions leaders actually trust.",
-    tag: "Popular",
-  },
-  {
-    courseId: "aws-cloud",
-    valueStatement: "Hands-on AWS mapped to roles and certification momentum.",
     tag: "Job-Oriented",
   },
   {
-    courseId: "selenium-auto",
-    valueStatement: "Automation that reads like real QA job postings—not toy scripts.",
-    tag: "Job-Oriented",
-  },
-  {
-    courseId: "uiux-figma",
-    valueStatement: "Portfolio-ready UX using the tool teams already standardize on.",
-  },
-  {
-    courseId: "data-science-py",
-    valueStatement: "The Python analytics workflow from tables to models.",
+    courseId: "azure-data-engineer-ai",
+    valueStatement: "Databricks, Data Factory, Azure Cloud, and AI integration mapped to real roles.",
     tag: "Trending",
-  },
-  {
-    courseId: "digital-marketing",
-    valueStatement: "Channel strategy with measurement—prove impact, not guesses.",
-    tag: "Popular",
   },
 ];
 
@@ -457,21 +560,21 @@ function buildCourseMap(): Map<string, Course> {
 const courseById = buildCourseMap();
 
 const levelTone: Record<Level, string> = {
-  Beginner: "bg-primary-soft text-primary",
-  Intermediate: "bg-secondary text-secondary-foreground",
-  Advanced: "bg-foreground/90 text-background",
+  Beginner: "bg-primary-soft text-primary border border-primary/20",
+  Intermediate: "bg-secondary text-secondary-foreground border border-secondary-foreground/10",
+  Advanced: "bg-foreground/90 text-background border border-foreground/20",
 };
 
 const marketTagTone: Record<MarketTag, string> = {
-  Popular: "border-primary/30 bg-primary/12 text-primary",
-  Trending: "border-accent/35 bg-accent/12 text-accent",
-  "Job-Oriented": "border-[hsl(40_45%_58%/.35)] bg-[hsl(40_45%_58%/.12)] text-[hsl(40_45%_72%)]",
+  Popular: "bg-primary/10 text-primary",
+  Trending: "bg-accent/10 text-accent",
+  "Job-Oriented": "bg-[hsl(40_45%_58%/.15)] text-[hsl(40_45%_72%)]",
 };
 
 const linkFocusClass =
-  "rounded-2xl outline-offset-2 transition-[transform,box-shadow] duration-300 ease-out focus-visible:outline focus-visible:ring-2 focus-visible:ring-ring";
+  "rounded-2xl outline-offset-2 transition-[transform,box-shadow,opacity] duration-300 ease-out focus-visible:outline focus-visible:ring-2 focus-visible:ring-ring";
 
-function FeaturedPrimaryCard({ item }: { item: FeaturedHighlight }) {
+function FeaturedCard({ item }: { item: FeaturedHighlight }) {
   const course = courseById.get(item.courseId);
   if (!course) return null;
   return (
@@ -479,66 +582,30 @@ function FeaturedPrimaryCard({ item }: { item: FeaturedHighlight }) {
       href={getCourseUrl(course.id)}
       target="_blank"
       rel="noopener noreferrer"
-      className={cn(linkFocusClass, "group block no-underline")}
+      className={cn(linkFocusClass, "group block h-full no-underline")}
       aria-label={`${course.name} — open featured course`}
     >
-      <Card className="h-full border-border/70 bg-gradient-to-br from-card to-primary-soft/25 shadow-card transition-transform duration-300 group-hover:-translate-y-1">
-        <CardHeader className="space-y-3 pb-3">
-          <div className="flex flex-wrap items-center gap-2">
-            {item.tag && (
-              <Badge variant="outline" className={cn("rounded-md border text-[11px] font-semibold", marketTagTone[item.tag])}>
-                {item.tag}
-              </Badge>
-            )}
-            <Badge variant="secondary" className={cn("ml-auto rounded-md text-[11px] font-semibold", levelTone[course.level])}>
-              {course.level}
-            </Badge>
-          </div>
-          <CardTitle className="text-xl leading-tight">{course.name}</CardTitle>
-          <p className="text-sm text-primary">{item.valueStatement}</p>
-          <CardDescription className="line-clamp-2 text-sm">{course.blurb}</CardDescription>
-        </CardHeader>
-        <CardContent className="flex items-center justify-between pt-0">
-          <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
-            <Clock className="h-3.5 w-3.5" />
-            {course.duration}
-          </span>
-          <span className="inline-flex items-center gap-1 text-sm font-medium text-primary">
-            Explore
-            <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-          </span>
-        </CardContent>
-      </Card>
-    </a>
-  );
-}
-
-function FeaturedCompactCard({ item }: { item: FeaturedHighlight }) {
-  const course = courseById.get(item.courseId);
-  if (!course) return null;
-  return (
-    <a
-      href={getCourseUrl(course.id)}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={cn(linkFocusClass, "group block no-underline")}
-      aria-label={`${course.name} — open featured course`}
-    >
-      <Card className="border-border/70 bg-card/90 transition-transform duration-300 group-hover:-translate-y-0.5">
-        <CardContent className="flex items-start justify-between gap-3 p-4">
-          <div className="min-w-0">
-            <div className="flex items-center gap-2">
-              {item.tag && (
-                <Badge variant="outline" className={cn("rounded-md border text-[10px] font-semibold", marketTagTone[item.tag])}>
-                  {item.tag}
-                </Badge>
+      <Card className="flex h-full flex-col overflow-hidden border-border/40 bg-card/40 shadow-sm backdrop-blur-xl transition-all duration-300 ease-out hover:-translate-y-1 hover:border-primary/30 hover:bg-card/80 hover:shadow-md">
+        <CardContent className="flex h-full flex-col p-5 sm:p-6">
+          <div className="mb-4 flex items-start justify-between gap-3">
+            <Badge
+              variant="secondary"
+              className={cn(
+                "rounded-md border-none text-[10px] font-bold uppercase tracking-wider",
+                item.tag ? marketTagTone[item.tag] : "bg-primary/10 text-primary"
               )}
-              <span className="text-[11px] text-muted-foreground">{course.duration}</span>
-            </div>
-            <h4 className="mt-2 line-clamp-1 text-sm font-semibold text-foreground">{course.name}</h4>
-            <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">{item.valueStatement}</p>
+            >
+              {item.tag || "Featured"}
+            </Badge>
+            <Clock className="h-4 w-4 shrink-0 text-muted-foreground/60" aria-hidden />
           </div>
-          <ArrowUpRight className="mt-0.5 h-4 w-4 shrink-0 text-primary transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+          <h4 className="line-clamp-2 text-base font-semibold leading-snug text-foreground">{course.name}</h4>
+          <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-muted-foreground">{item.valueStatement}</p>
+          
+          <div className="mt-auto pt-6 flex items-center text-sm font-semibold text-primary">
+            Explore Program
+            <ArrowUpRight className="ml-1.5 h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden />
+          </div>
         </CardContent>
       </Card>
     </a>
@@ -555,8 +622,8 @@ function CourseCard({ course }: { course: Course }) {
       aria-label={`${course.name} — open course details on SamIT Technology`}
       className={cn(linkFocusClass, "group block h-full no-underline")}
     >
-      <Card className="flex h-full flex-col border-border/70 bg-card/95 transition-[transform,box-shadow] duration-300 ease-out group-hover:-translate-y-0.5 group-hover:border-primary/20">
-        <CardHeader className="space-y-2 pb-2">
+      <Card className="flex h-full flex-col overflow-hidden border-border/50 bg-card/60 shadow-sm transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-primary/20 hover:bg-card/90">
+        <CardHeader className="space-y-3 pb-3">
           <div className="flex flex-wrap items-start justify-between gap-2">
             <CardTitle className="line-clamp-1 text-base font-semibold leading-snug text-foreground">{course.name}</CardTitle>
             <div className="flex shrink-0 flex-wrap items-center justify-end gap-1.5">
@@ -564,7 +631,7 @@ function CourseCard({ course }: { course: Course }) {
                 <Badge
                   variant="outline"
                   className={cn(
-                    "rounded-md text-[10px] font-semibold uppercase tracking-wide",
+                    "rounded-md border-none text-[10px] font-semibold uppercase tracking-wide",
                     marketTagTone[course.tag],
                   )}
                 >
@@ -578,14 +645,14 @@ function CourseCard({ course }: { course: Course }) {
           </div>
           <CardDescription className="line-clamp-2 text-sm leading-relaxed text-muted-foreground">{course.blurb}</CardDescription>
         </CardHeader>
-        <CardContent className="mt-auto flex items-center justify-between gap-3 pt-1 text-sm">
-          <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
+        <CardContent className="mt-auto flex items-center justify-between gap-3 pt-2 text-sm">
+          <span className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
             <Clock className="h-3.5 w-3.5 shrink-0" aria-hidden />
             {course.duration}
           </span>
-          <span className="inline-flex shrink-0 items-center gap-1 text-sm font-medium text-primary">
+          <span className="inline-flex shrink-0 items-center gap-1 text-sm font-medium text-primary opacity-90 transition-opacity group-hover:opacity-100">
             Learn more
-            <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden />
+            <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden />
           </span>
         </CardContent>
       </Card>
@@ -594,72 +661,99 @@ function CourseCard({ course }: { course: Course }) {
 }
 
 export const Courses = () => {
-  const categories = CATEGORY_ORDER.filter((c) => CATALOG[c]?.length);
-  const [activeCategory, setActiveCategory] = useState<string>(categories[0]);
-  const featuredPrimary = FEATURED[0];
-  const featuredSecondary = FEATURED.slice(1, 5);
-  const activeCourses = useMemo(() => CATALOG[activeCategory] ?? [], [activeCategory]);
+  const filteredCategories = CATEGORY_ORDER.filter((c) => CATALOG[c]?.length);
+  const categories = ["All", ...filteredCategories];
+  
+  const [activeCategory, setActiveCategory] = useState<string>("All");
+  const [visibleCount, setVisibleCount] = useState(6);
+
+  const activeCourses = useMemo(() => {
+    if (activeCategory === "All") {
+      return Object.values(CATALOG).flat();
+    }
+    return CATALOG[activeCategory] ?? [];
+  }, [activeCategory]);
+
+  const displayedCourses = activeCourses.slice(0, visibleCount);
+  const hasMore = visibleCount < activeCourses.length;
+
+  const handleShowMore = () => {
+    if (hasMore) {
+      setVisibleCount((prev) => prev + 6);
+    } else {
+      setVisibleCount(6);
+      const el = document.getElementById("browse-courses");
+      if (el) {
+        const yOffset = -80; // Offset for fixed header
+        const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({ top: y, behavior: "smooth" });
+      }
+    }
+  };
+
+  const handleCategoryChange = (cat: string) => {
+    setActiveCategory(cat);
+    setVisibleCount(6);
+  };
 
   return (
-    <section id="courses" aria-labelledby="courses-heading" className="section-surface section-y">
-      <div className="container-tight">
+    <section id="courses" aria-labelledby="courses-heading" className="section-surface section-y content-lazy relative overflow-hidden">
+      {/* Subtle background glow for premium feel */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute -left-1/4 top-0 h-[500px] w-[500px] rounded-full bg-primary/5 blur-[120px]" />
+        <div className="absolute -right-1/4 bottom-0 h-[400px] w-[400px] rounded-full bg-accent/5 blur-[100px]" />
+      </div>
+
+      <div className="container-tight relative z-10">
         <Reveal>
           <SectionHeading
             eyebrow="Courses"
             title="Training programs built for real careers"
-            description="Explore featured tracks first, then open a category—every card links to full details on SamIT Technology."
+            description="Explore our most in-demand tracks, or browse our full catalog to find the right path for your next career move."
           />
           <h2 id="courses-heading" className="sr-only">
             Courses
           </h2>
         </Reveal>
 
-        <Reveal className="mt-10">
-          <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+        <Reveal className="mt-8 lg:mt-14">
+          <div className="mb-5 flex flex-col gap-2 sm:mb-6 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <h3 className="text-sm font-medium uppercase tracking-wider text-muted-foreground">Featured programs</h3>
-              <p className="mt-1 max-w-xl text-sm text-muted-foreground">
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/80 sm:text-sm">Featured Programs</h3>
+              <p className="mt-1 max-w-xl text-xs text-muted-foreground sm:mt-1.5 sm:text-sm">
                 High-demand tracks with the strongest placement momentum.
               </p>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1.25fr_.75fr]">
-            <div className="min-h-[230px]">
-              <FeaturedPrimaryCard item={featuredPrimary} />
-            </div>
-            <div className="grid gap-3">
-              {featuredSecondary.map((item) => (
-                <FeaturedCompactCard key={item.courseId} item={item} />
-              ))}
-            </div>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {FEATURED.slice(0, 4).map((item) => (
+              <FeaturedCard key={item.courseId} item={item} />
+            ))}
           </div>
         </Reveal>
 
-        <Reveal className="mt-12">
-          <div className="mb-5">
-            <h3 className="text-sm font-medium uppercase tracking-wider text-muted-foreground">Browse by category</h3>
-            <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
-              Use filters to quickly scan compact course cards.
-            </p>
+        <Reveal className="mt-12 lg:mt-24">
+          <div id="browse-courses" className="mb-5 scroll-mt-20 sm:mb-6 sm:scroll-mt-24">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/80 sm:text-sm">Browse Catalog</h3>
           </div>
 
           <div className="w-full">
-            <div className="-mx-1 overflow-x-auto pb-2 md:mx-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              <div className="inline-flex w-max items-center gap-2 rounded-2xl border border-border/55 bg-muted/35 p-1.5">
+            <div className="-mx-1 scroll-touch pb-4 md:mx-0">
+              <div className="inline-flex w-max items-center gap-1.5 rounded-full border border-border/40 bg-muted/20 p-1.5 backdrop-blur-sm">
                 {categories.map((cat) => {
                   const active = activeCategory === cat;
                   return (
                     <button
                       key={cat}
                       type="button"
-                      onClick={() => setActiveCategory(cat)}
+                      onClick={() => handleCategoryChange(cat)}
                       className={cn(
-                        "whitespace-nowrap rounded-xl px-3.5 py-2 text-xs font-medium transition-all sm:text-sm",
+                        "whitespace-nowrap rounded-full px-4 py-2 text-xs font-medium transition-all sm:text-sm",
                         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                         active
-                          ? "bg-card text-foreground shadow-soft"
-                          : "text-muted-foreground hover:bg-card/70 hover:text-foreground",
+                          ? "bg-primary text-primary-foreground shadow-sm"
+                          : "text-muted-foreground hover:bg-muted/50 hover:text-foreground",
                       )}
                     >
                       {cat}
@@ -668,14 +762,38 @@ export const Courses = () => {
                 })}
               </div>
             </div>
-            <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
-              {activeCourses.map((course) => (
+
+            <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {displayedCourses.map((course) => (
                 <CourseCard key={course.id} course={course} />
               ))}
             </div>
+
+            {activeCourses.length > 6 && (
+              <div className="mt-10 flex justify-center">
+                <button
+                  type="button"
+                  onClick={handleShowMore}
+                  className="group inline-flex items-center justify-center gap-2 rounded-full border border-border/60 bg-card/50 px-6 py-2.5 text-sm font-medium text-foreground shadow-sm backdrop-blur-sm transition-all hover:bg-muted hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  {hasMore ? (
+                    <>
+                      Show More Courses
+                      <ChevronDown className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
+                    </>
+                  ) : (
+                    <>
+                      Show Less
+                      <ChevronUp className="h-4 w-4 transition-transform group-hover:-translate-y-0.5" />
+                    </>
+                  )}
+                </button>
+              </div>
+            )}
           </div>
         </Reveal>
       </div>
     </section>
   );
 };
+
