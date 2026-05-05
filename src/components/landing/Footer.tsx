@@ -1,4 +1,4 @@
-import { Github, Instagram, Linkedin } from "lucide-react";
+import { Facebook, Instagram, Linkedin } from "lucide-react";
 
 const links = [
   { href: "#about", label: "About" },
@@ -13,9 +13,9 @@ export const Footer = () => (
     <div className="container-tight py-10 sm:py-14 md:py-16">
       <div className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
         <div className="flex items-center gap-3">
-          <img 
-            src="/samit_logo.png" 
-            alt="SamIT Technology" 
+          <img
+            src="/samit_logo.png"
+            alt="SamIT Technology"
             className="h-10 w-auto object-contain"
           />
           <div className="hidden sm:block">
@@ -39,9 +39,9 @@ export const Footer = () => (
 
         <div className="flex items-center gap-3">
           {[
-            { Icon: Linkedin, label: "LinkedIn", href: "#" },
-            { Icon: Instagram, label: "Instagram", href: "#" },
-            { Icon: Github, label: "GitHub", href: "#" },
+            { Icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/sam-it-technology-974743382/" },
+            { Icon: Instagram, label: "Instagram", href: "https://www.instagram.com/samittechnology/" },
+            { Icon: Facebook, label: "Facebook", href: "https://www.facebook.com/profile.php?id=61580168347889" },
           ].map(({ Icon, label, href }) => (
             <a
               key={label}

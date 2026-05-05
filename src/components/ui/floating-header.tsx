@@ -47,7 +47,7 @@ export function FloatingHeader({
       ([entry]) => {
         setScrolled(!entry.isIntersecting);
       },
-      { rootMargin: "-12px 0px 0px 0px", threshold: 1 },
+      { rootMargin: "-24px 0px 0px 0px", threshold: 1 },
     );
 
     observer.observe(sentinel);
@@ -58,7 +58,7 @@ export function FloatingHeader({
   }, []);
 
   return (
-    <header className="sticky top-3 z-50 mx-auto w-full max-w-6xl px-4 md:top-4 md:px-8">
+    <header className="sticky top-6 z-50 mx-auto w-full max-w-6xl px-4 md:top-8 md:px-8">
       <nav
         className={cn(
           "mx-auto flex min-h-[3.5rem] w-full items-center justify-between rounded-2xl border px-2.5 py-1.5 shadow-soft",

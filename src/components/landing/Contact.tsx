@@ -22,22 +22,22 @@ const items: Item[] = [
   {
     icon: Phone,
     label: "Call us",
-    value: "+91 98765 43210",
-    href: "tel:+919876543210",
+    value: "+91 77948 99898",
+    href: "tel:+917794899898",
     cta: "Call now",
   },
   {
     icon: Mail,
     label: "Email",
-    value: "hello@samittechnology.in",
-    href: "mailto:hello@samittechnology.in",
+    value: "samittechnologys@gmail.in",
+    href: "mailto:samittechnologys@gmail.in",
     cta: "Send email",
   },
   {
     icon: MessageCircle,
     label: "WhatsApp",
     value: "Chat with admissions",
-    href: "https://wa.me/919876543210",
+    href: "https://wa.me/917794899898",
     cta: "Open WhatsApp",
   },
   {
