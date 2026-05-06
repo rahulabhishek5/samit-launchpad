@@ -1,7 +1,6 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { useEffect, useRef, useState } from "react";
 
 type TestimonialItem = {
   quote: string;
@@ -65,60 +64,24 @@ export default function TestimonialSection({
   description = "Join thousands of successful learners who transformed their careers with us.",
   items = defaultItems,
 }: TestimonialProps) {
-  const scrollerRef = useRef<HTMLDivElement | null>(null);
-  const [isPaused, setIsPaused] = useState(false);
-
-  useEffect(() => {
-    const scroller = scrollerRef.current;
-    if (!scroller) return;
-
-    const media = window.matchMedia("(max-width: 767px)");
-    if (!media.matches) return;
-
-    let frameId = 0;
-    const speedPerFrame = 0.24;
-
-    const tick = () => {
-      if (!isPaused) {
-        const maxScroll = scroller.scrollWidth - scroller.clientWidth;
-        if (maxScroll <= 0) return;
-        if (scroller.scrollLeft >= maxScroll - 1) {
-          scroller.scrollTo({ left: 0, behavior: "auto" });
-        } else {
-          scroller.scrollLeft += speedPerFrame;
-        }
-      }
-      frameId = window.requestAnimationFrame(tick);
-    };
-
-    frameId = window.requestAnimationFrame(tick);
-    return () => window.cancelAnimationFrame(frameId);
-  }, [isPaused]);
-
   return (
     <section className={cn("text-center", className)}>
       <h3 className="text-2xl font-bold text-foreground md:text-3xl">{title}</h3>
       <p className="mx-auto mt-3 max-w-2xl text-sm text-muted-foreground md:text-base">{description}</p>
 
       <div
-        ref={scrollerRef}
         className={cn(
-          "mt-10 flex gap-5 overflow-x-auto pb-3 text-left md:mt-12 md:grid md:grid-cols-3 md:overflow-visible",
-          "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory md:snap-none",
+          "mt-10 flex gap-5 overflow-x-auto pb-6 pt-2 text-left md:mt-12 md:grid md:grid-cols-3 md:overflow-visible",
+          "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory md:snap-none px-4 md:px-0",
         )}
-        onTouchStart={() => setIsPaused(true)}
-        onTouchEnd={() => setIsPaused(false)}
-        onMouseDown={() => setIsPaused(true)}
-        onMouseUp={() => setIsPaused(false)}
-        onMouseLeave={() => setIsPaused(false)}
       >
         {items.map((item) => (
           <article
             key={item.name}
             className={cn(
-              "w-[18.5rem] shrink-0 snap-start rounded-2xl border border-border/70 bg-card/95 p-5 shadow-soft",
+              "w-[85vw] max-w-[22rem] shrink-0 snap-center rounded-2xl border border-border/70 bg-card/95 p-5 shadow-soft",
               "transition-transform duration-300 hover:-translate-y-0.5",
-              "md:w-auto",
+              "md:w-auto md:snap-align-none",
             )}
           >
             <div className="h-9 w-9 rounded-full bg-primary/15 p-2">
