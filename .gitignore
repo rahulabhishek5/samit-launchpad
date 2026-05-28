@@ -1,5 +1,109 @@
-# Logs
-logs
+# ==============================================================================
+# SamIT Launchpad — Bulletproof .gitignore
+# Principal DevSecOps Edition — Zero-Leak Configuration
+# ==============================================================================
+
+
+# ------------------------------------------------------------------------------
+# ENVIRONMENT & SECRETS — Never commit real credentials
+# ------------------------------------------------------------------------------
+.env
+.env.local
+.env.development
+.env.production
+.env.staging
+.env.test
+.env.*
+*.env
+
+# Explicitly KEEP the safe public template:
+!.env.example
+
+
+# ------------------------------------------------------------------------------
+# DEPENDENCIES
+# ------------------------------------------------------------------------------
+node_modules/
+jspm_packages/
+web_packages/
+.pnp
+.pnp.js
+
+
+# ------------------------------------------------------------------------------
+# BUILD OUTPUTS & PRODUCTION ARTIFACTS
+# ------------------------------------------------------------------------------
+dist/
+dist-ssr/
+build/
+out/
+.next/
+.nuxt/
+.svelte-kit/
+*.local.json
+*.local
+
+
+# ------------------------------------------------------------------------------
+# COVERAGE & TEST REPORTS
+# ------------------------------------------------------------------------------
+coverage/
+*.lcov
+.nyc_output/
+
+
+# ------------------------------------------------------------------------------
+# TYPESCRIPT BUILD CACHE
+# ------------------------------------------------------------------------------
+*.tsbuildinfo
+
+
+# ------------------------------------------------------------------------------
+# TOOL CACHES
+# ------------------------------------------------------------------------------
+.cache/
+.eslintcache
+.stylelintcache
+.vite/
+.parcel-cache/
+.turbo/
+
+
+# ------------------------------------------------------------------------------
+# IDE & EDITOR DATA
+# ------------------------------------------------------------------------------
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.swp
+*.swo
+.project
+.classpath
+.settings/
+
+
+# ------------------------------------------------------------------------------
+# OS GARBAGE FILES
+# ------------------------------------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+
+# ------------------------------------------------------------------------------
+# DIAGNOSTIC & DEBUG LOGS
+# ------------------------------------------------------------------------------
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -7,42 +111,19 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# Dependencies
-node_modules
 
-# Build
-dist
-dist-ssr
-*.local
+# ------------------------------------------------------------------------------
+# DEPLOYMENT & PLATFORM TOOLING
+# ------------------------------------------------------------------------------
+.vercel/
+.netlify/
+.firebase/
 
-# Environment (keep .env.example if you add one)
-.env
-.env.*
-!.env.example
 
-# Testing
-coverage
-*.lcov
-
-# TypeScript
-*.tsbuildinfo
-
-# Caches
-.cache
-.eslintcache
-.vite
-
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
-Thumbs.db
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
-# Deployment / tooling
-.vercel
+# ------------------------------------------------------------------------------
+# PACKAGE MANAGER LOCK FILES (keep only what your team uses)
+# Uncomment to ignore alternates if your team standardises on one manager:
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+# ------------------------------------------------------------------------------
