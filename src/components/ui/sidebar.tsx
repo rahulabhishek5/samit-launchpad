@@ -65,7 +65,10 @@ const SidebarProvider = React.forwardRef<
       }
 
       // This sets the cookie to keep the sidebar state.
-      document.cookie = `${SIDEBAR_COOKIE_NAME}=${openState}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`;
+      // Secure: only sent over HTTPS. SameSite=Lax: blocks cross-site POST
+      // requests. httpOnly cannot be set via JS (server-only flag) — this cookie
+      // stores a UI preference only, not authentication data.
+      document.cookie = `${SIDEBAR_COOKIE_NAME}=${openState}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}; Secure; SameSite=Lax`;
     },
     [setOpenProp, open],
   );

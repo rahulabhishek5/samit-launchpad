@@ -89,7 +89,11 @@ export function FloatingHeader({
         </div>
 
         <div className="flex items-center gap-2">
-          <Button asChild size="sm" className="hidden sm:inline-flex">
+          <Button asChild size="sm" className="hidden sm:inline-flex" onClick={(e) => {
+            if (ctaHref === "#contact") {
+              window.dispatchEvent(new CustomEvent("focus-contact-form"));
+            }
+          }}>
             <a href={ctaHref}>{ctaLabel}</a>
           </Button>
 
@@ -97,7 +101,11 @@ export function FloatingHeader({
             <a href="#courses">Menu</a>
           </Button>
 
-          <Button asChild size="sm" className="sm:hidden">
+          <Button asChild size="sm" className="sm:hidden" onClick={(e) => {
+            if (ctaHref === "#contact") {
+              window.dispatchEvent(new CustomEvent("focus-contact-form"));
+            }
+          }}>
             <a href={ctaHref}>Enroll</a>
           </Button>
 
@@ -131,7 +139,12 @@ export function FloatingHeader({
                       className: "justify-start rounded-xl py-6 text-base",
                     })}
                     href={link.href}
-                    onClick={() => setOpen(false)}
+                    onClick={() => {
+                      setOpen(false);
+                      if (link.href === "#contact") {
+                        window.dispatchEvent(new CustomEvent("focus-contact-form"));
+                      }
+                    }}
                   >
                     {link.label}
                   </a>

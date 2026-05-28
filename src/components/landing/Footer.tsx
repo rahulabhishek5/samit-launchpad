@@ -39,9 +39,9 @@ export const Footer = () => (
 
         <div className="flex items-center gap-3">
           {[
-            { Icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/sam-it-technology-974743382/" },
-            { Icon: Instagram, label: "Instagram", href: "https://www.instagram.com/samittechnology/" },
-            { Icon: Facebook, label: "Facebook", href: "https://www.facebook.com/profile.php?id=61580168347889" },
+            { Icon: Linkedin, label: "LinkedIn", href: import.meta.env.VITE_SOCIAL_LINKEDIN },
+            { Icon: Instagram, label: "Instagram", href: import.meta.env.VITE_SOCIAL_INSTAGRAM },
+            { Icon: Facebook, label: "Facebook", href: import.meta.env.VITE_SOCIAL_FACEBOOK },
           ].map(({ Icon, label, href }) => (
             <a
               key={label}

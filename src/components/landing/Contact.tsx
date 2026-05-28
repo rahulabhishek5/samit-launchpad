@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { CheckCircle2, XCircle, Mail, MapPin, MessageCircle, Phone, Loader2 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Reveal } from "./Reveal";
@@ -22,36 +22,66 @@ const items: Item[] = [
     icon: MapPin,
     label: "Visit us",
     value: "2nd Floor, Tech Park, MG Road, Bengaluru 560001",
-    href: "https://maps.google.com/?q=MG+Road+Bengaluru",
+    href: import.meta.env.VITE_CONTACT_MAPS_HREF,
     cta: "Get Directions",
   },
   {
     icon: Phone,
     label: "Call us",
-    value: "+91 77948 99898",
-    href: "tel:+917794899898",
+    value: import.meta.env.VITE_CONTACT_PHONE ?? "+91 77948 99898",
+    href: import.meta.env.VITE_CONTACT_PHONE_TEL,
     cta: "Call now",
   },
   {
     icon: Mail,
     label: "Email",
-    value: "samittechnologys@gmail.in",
-    href: "mailto:samittechnologys@gmail.in",
+    value: import.meta.env.VITE_CONTACT_EMAIL ?? "samittechnologys@gmail.in",
+    href: import.meta.env.VITE_CONTACT_EMAIL_HREF,
     cta: "Send email",
   },
   {
     icon: MessageCircle,
     label: "WhatsApp",
     value: "Chat with admissions",
-    href: "https://wa.me/917794899898",
+    href: import.meta.env.VITE_CONTACT_WHATSAPP_HREF,
     cta: "Open WhatsApp",
   },
 ];
 
-// Production Backend URL Toggle
-const FORM_ENDPOINT = "https://formspree.io/f/your_form_id";
+// Form API endpoint sourced from environment variable — never hardcode here.
+// Set VITE_FORM_API_URL in your .env file (see .env.example).
+const FORM_API_URL = import.meta.env.VITE_FORM_API_URL as string | undefined;
 
 export const Contact = () => {
+  const nameInputRef = useRef<HTMLInputElement>(null);
+  // 0 = user has not interacted yet (sentinel). Stamped on first focus/keystroke.
+  // Anchoring to first interaction (not mount) avoids false-positives caused by
+  // lazy-loading render delays and browser autofill completing before the user
+  // has had a chance to read the form.
+  const formLoadTime = useRef<number>(0);
+
+  useEffect(() => {
+    const handleFocus = () => {
+      // Delay allows the smooth scrolling to finish before focusing
+      setTimeout(() => {
+        if (nameInputRef.current) {
+          nameInputRef.current.focus({ preventScroll: true });
+        }
+      }, 800);
+    };
+
+    window.addEventListener("focus-contact-form", handleFocus);
+    return () => window.removeEventListener("focus-contact-form", handleFocus);
+  }, []);
+
+  // Stamps the interaction time on the very first focus or keystroke in the
+  // Name field. Subsequent calls are no-ops (guarded by the === 0 check).
+  const handleFirstInteraction = () => {
+    if (formLoadTime.current === 0) {
+      formLoadTime.current = Date.now();
+    }
+  };
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -124,14 +154,41 @@ export const Contact = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setGlobalError("");
-    
-    // 1. Bot Trap (Honeypot) Check
-    if (honeypot) {
-      console.warn("Spam detected. Submission silently dropped.");
-      return; 
+
+    // ── Guard 0: Misconfiguration check ──────────────────────────────────────
+    // Fail loudly in development if the endpoint env var is missing so it is
+    // never silently swallowed in production.
+    if (!FORM_API_URL) {
+      // Only log to console in dev — production visitors should not see
+      // internal configuration details in their browser devtools.
+      if (import.meta.env.DEV) {
+        console.error("[Contact] VITE_FORM_API_URL is not set. Add it to your .env file.");
+      }
+      setGlobalError("Form is not configured. Please contact the site administrator.");
+      return;
     }
 
-    // 2. Strict State Validation
+    // ── Guard 1: Honeypot ────────────────────────────────────────────────────
+    // If the hidden b_username field is populated, a bot filled it.
+    // We silently fake a success response so the bot has no signal to retry.
+    if (honeypot) {
+      setIsSuccess(true);
+      setTimeout(() => setIsSuccess(false), 5000);
+      return;
+    }
+
+    // ── Guard 2: Timing heuristic ─────────────────────────────────────────────
+    // Legitimate users take at minimum ~3 seconds to read and fill a form.
+    // Bots often submit in under 1.5 seconds. We hard-block anything under 2s.
+    const elapsed = Date.now() - formLoadTime.current;
+    if (elapsed < 2000) {
+      // Silent fake success — same rationale as honeypot above.
+      setIsSuccess(true);
+      setTimeout(() => setIsSuccess(false), 5000);
+      return;
+    }
+
+    // ── Guard 3: Field-level validation ──────────────────────────────────────
     let hasError = false;
     const newErrors = { email: "", phone: "", subject: "" };
 
@@ -153,21 +210,42 @@ export const Contact = () => {
       return;
     }
 
-    // 3. API Fetch Execution
+    // ── API Fetch ─────────────────────────────────────────────────────────────
     setIsLoading(true);
 
     try {
-      const response = await fetch(FORM_ENDPOINT, {
+      // Google Sheets Formula Injection Prevention: If a string starts with a formula
+      // trigger character, prepend an apostrophe to force plain-text evaluation.
+      const escapeFormula = (str: string) => {
+        const trimmed = str.trim();
+        return /^[=+\-@]/.test(trimmed) ? `'${trimmed}` : trimmed;
+      };
+
+      // Sanitize at the serialization boundary: truncate length and escape formulas.
+      const sanitizedPayload = {
+        name:    escapeFormula(formData.name).slice(0, 120),
+        email:   escapeFormula(formData.email).slice(0, 254), // RFC 5321
+        phone:   escapeFormula(formData.phone).slice(0, 20),
+        subject: escapeFormula(formData.subject).slice(0, 200),
+        message: escapeFormula(formData.message).slice(0, 2000),
+      };
+
+      const response = await fetch(FORM_API_URL, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
+          // text/plain keeps this a CORS "simple request" — no OPTIONS preflight
+          // is sent, bypassing Google Apps Script's lack of preflight support.
+          // The body is still valid JSON; doPost reads it via e.postData.contents.
+          "Content-Type": "text/plain",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(sanitizedPayload),
       });
 
-      if (!response.ok) {
-        throw new Error(`HTTP Error: ${response.status}`);
+      // Google Apps Script always returns 200 even for script-level errors.
+      // Parse the JSON body and inspect the status field instead.
+      const result = await response.json().catch(() => null);
+      if (!response.ok || result?.status === "error") {
+        throw new Error(result?.message ?? `HTTP Error: ${response.status}`);
       }
       
       // Success State Handlers
@@ -182,9 +260,18 @@ export const Contact = () => {
         setIsSuccess(false);
       }, 5000);
 
+      // Remove focus from name field on success
+      if (document.activeElement instanceof HTMLElement) {
+        document.activeElement.blur();
+      }
+
     } catch (error) {
-      console.error("Submission failed:", error);
-      // Keep the form data intact so the user doesn't lose their message
+      // Only surface raw error details in development. In production, the user
+      // sees the globalError banner without leaking network internals to devtools.
+      if (import.meta.env.DEV) {
+        console.error("Submission failed:", error);
+      }
+      // Keep form data intact so the user doesn't lose their message
       setGlobalError("Something went wrong. Please try again later.");
     } finally {
       setIsLoading(false);
@@ -274,12 +361,14 @@ export const Contact = () => {
                     <Input 
                       id="name" 
                       name="name" 
+                      ref={nameInputRef}
                       value={formData.name} 
-                      onChange={handleChange} 
+                      onFocus={handleFirstInteraction}
+                      onChange={(e) => { handleFirstInteraction(); handleChange(e); }}
                       placeholder="Your full name" 
                       required 
                       disabled={isLoading}
-                      className="bg-background/50 transition-colors" 
+                      className="bg-background/50 transition-colors focus:ring-2 focus:ring-primary/20 focus:border-primary" 
                     />
                   </div>
 
