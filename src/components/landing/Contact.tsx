@@ -411,7 +411,7 @@ export const Contact = () => {
                         value={formData.phone} 
                         onChange={handleChange} 
                         onBlur={handleBlur} 
-                        placeholder="+91 98765 43210" 
+                        placeholder="Enter your Mobile number" 
                         required 
                         disabled={isLoading}
                         className={`bg-background/50 pr-12 transition-colors ${errors.phone ? "border-red-500 focus-visible:ring-red-500" : (formData.phone && validatePhone(formData.phone) ? "border-green-500 focus-visible:ring-green-500" : "")}`} 
